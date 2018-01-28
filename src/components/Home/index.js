@@ -3,7 +3,7 @@ import '../../assets/stylesheets/application.css';
 import {Link} from 'react-router-dom'
 import CrowdsalesList from '../Common/CrowdsalesList'
 import {Loader} from '../Common/Loader'
-import {loadRegistryAddresses} from '../../utils/blockchainHelpers'
+import {loadRegistryAddresses,loadRegistryAddrsWithInfura} from '../../utils/blockchainHelpers'
 import {ModalContainer} from '../Common/ModalContainer'
 import {web3Store} from '../../stores'
 
