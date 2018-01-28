@@ -1,26 +1,25 @@
-import {incorrectNetworkAlert, noMetaMaskAlert, invalidNetworkIDAlert} from './alerts'
-import {CHAINS, MAX_GAS_PRICE} from './constants'
-import {crowdsaleStore, generalStore, web3Store, contractStore} from '../stores'
-import {fetchFile} from './utils'
-import deploymentStore from '../stores/DeploymentStore'
-
-const DEPLOY_CONTRACT = 1
-const CALL_METHOD = 2
+import { incorrectNetworkAlert, noMetaMaskAlert, invalidNetworkIDAlert } from './alerts';
+import { CHAINS, MAX_GAS_PRICE } from './constants';
+import { crowdsaleStore, generalStore, web3Store, contractStore } from '../stores';
+import { fetchFile } from './utils';
+import deploymentStore from '../stores/DeploymentStore';
+const DEPLOY_CONTRACT = 1;
+const CALL_METHOD = 2;
 
 export function checkWeb3() {
-  const {web3} = web3Store
+  const { web3 } = web3Store;
 
   if (!web3) {
-    setTimeout(function() {
+    setTimeout(() => {
       web3Store.getWeb3(web3 => {
         if (!web3)
-          return noMetaMaskAlert()
-        checkMetaMask()
-      })
-    }, 500)
+          return noMetaMaskAlert();
+        checkMetaMask();
+      });
+    }, 500);
 
   } else {
-    checkMetaMask()
+    checkMetaMask();
   }
 }
 
@@ -321,7 +320,7 @@ function getRegistryAddressWithInfura(net) {
      body: json
   }
   const request = new Request(url, options)
-  const resp = await fetch(request)
+  const resp = fetch(request)
   return resp.json().then(res => {
     const registryAddressMap = JSON.parse(process.env['REACT_APP_REGISTRY_ADDRESS'] || '{}')
     return registryAddressMap[res.result]
