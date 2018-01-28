@@ -55,7 +55,7 @@ export class Home extends Component {
               </p>
               <div className="buttons">
                 <Link to='/1'><span className="button button_fill">New crowdsale</span></Link>
-                <div onClick={() => this.chooseContract()} className="button button_outline">Choose Contract</div>
+                <div onClick={() => this.chooseContract()} className="button button_outline">Choose Contract1</div>
               </div>
             </div>
           </div>
