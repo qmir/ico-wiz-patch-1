@@ -180,7 +180,6 @@ let sendTX = (method, type) => {
         } else {
           repeatPolling()
         }
-
         function repeatPolling() {
           console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
           setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
@@ -189,12 +188,9 @@ let sendTX = (method, type) => {
     .on('receipt', receipt => {
       if (isMined)
         return
-
       const typeDisplayName = getTypeOfTxDisplayName(type)
-
       console.log(`${typeDisplayName} ${txHash} is mined from Promise`)
       isMined = true
-
       sendTXResponse(receipt, type).then(resolve).catch(reject)
     })
   })
@@ -213,7 +209,6 @@ const sendTXResponse = (receipt, type) => {
 
 export const checkTxMined = (txHash, _pollingReceiptCheck) => {
   const {web3} = web3Store
-
   web3.eth.getTransactionReceipt(txHash, (err, receipt) => {
     if (receipt)
       console.log(receipt)
@@ -224,7 +219,6 @@ export const checkTxMined = (txHash, _pollingReceiptCheck) => {
 const getTypeOfTxDisplayName = (type) => {
   const deployContractTypeDisplayName = 'Contract deployment transaction'
   const callMethodTypeDisplayName = 'Contract method transaction'
-
   switch (type) {
     case DEPLOY_CONTRACT:
       return deployContractTypeDisplayName
@@ -237,7 +231,6 @@ const getTypeOfTxDisplayName = (type) => {
 
 export function attachToContract(abi, addr) {
   const {web3} = web3Store
-
   return web3.eth.getAccounts().then(accounts => {
     const objAbi = JSON.parse(JSON.stringify(abi))
     return new web3.eth.Contract(objAbi, addr, {from: accounts[0]})
@@ -246,7 +239,6 @@ export function attachToContract(abi, addr) {
 
 function getRegistryAddress() {
   const {web3} = web3Store
-
   return web3.eth.net.getId().then(networkId => {
     const registryAddressMap = JSON.parse(process.env['REACT_APP_REGISTRY_ADDRESS'] || '{}')
     return registryAddressMap[networkId]
@@ -256,14 +248,10 @@ function getRegistryAddress() {
 export function registerCrowdsaleAddress() {
   const {web3} = web3Store
   const toJS = x => JSON.parse(JSON.stringify(x))
-
   const registryAbi = contractStore.registry.abi
   const crowdsaleAddress = contractStore.crowdsale.addr[0]
-
   const whenRegistryAddress = getRegistryAddress()
-
   const whenAccount = web3.eth.getAccounts().then((accounts) => accounts[0])
-
   return Promise.all([whenRegistryAddress, whenAccount]).then(([registryAddress, account]) => {
     const registry = new web3.eth.Contract(toJS(registryAbi), registryAddress)
     const opts = {
@@ -279,11 +267,8 @@ function getRegistryAbi() {
 }
 
 function getRegistryContract() {
-  // Get Registry ABI and address
   const whenRegistryAbi = getRegistryAbi().then(JSON.parse)
   const whenRegistryAddress = getRegistryAddress()
-
-  // Load Registry contract
   return Promise.all([whenRegistryAbi, whenRegistryAddress]).then(([abi, address]) => attachToContract(abi, address))
 }
 
@@ -312,7 +297,7 @@ export function loadRegistryAddresses() {
 //////////////////////////////////////////////////////
 // Infura
 
-function getRegistryAddressWithInfura(net) {
+async function getRegistryAddressWithInfura(net) {
   const url = "https://${net}.infura.io/5HfnvZ04q1A0dl6EbwR2";
   const json = JSON.stringify({"jsonrpc": "2.0", "method": "net_version", "params": [], "id": 67});
   const headers = new Headers()
@@ -322,8 +307,7 @@ function getRegistryAddressWithInfura(net) {
     headers,
     body: json
   }
-  const request = new Request(url, options)
-  const resp = fetch(request)
+  const resp = await fetch(url, options)
   return resp.json().then(res => {
     const registryAddressMap = JSON.parse(process.env['REACT_APP_REGISTRY_ADDRESS'] || '{}')
     return registryAddressMap[res.result]
