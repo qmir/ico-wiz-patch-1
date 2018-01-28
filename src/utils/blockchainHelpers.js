@@ -1,13 +1,13 @@
-import { incorrectNetworkAlert, noMetaMaskAlert, invalidNetworkIDAlert } from './alerts';
-import { CHAINS, MAX_GAS_PRICE } from './constants';
-import { crowdsaleStore, generalStore, web3Store, contractStore } from '../stores';
-import { fetchFile } from './utils';
+import {incorrectNetworkAlert, noMetaMaskAlert, invalidNetworkIDAlert} from './alerts';
+import {CHAINS, MAX_GAS_PRICE} from './constants';
+import {crowdsaleStore, generalStore, web3Store, contractStore} from '../stores';
+import {fetchFile} from './utils';
 import deploymentStore from '../stores/DeploymentStore';
 const DEPLOY_CONTRACT = 1;
 const CALL_METHOD = 2;
 
 export function checkWeb3() {
-  const { web3 } = web3Store;
+  const {web3} = web3Store;
 
   if (!web3) {
     setTimeout(() => {
@@ -160,32 +160,33 @@ let sendTX = (method, type) => {
     // wizard works.
     // https://github.com/oraclesorg/ico-wizard/pull/364/files/c86c3e8482ef078e0cb46b8bebf57a9187f32181#r152277434
       .on('transactionHash', _txHash => checkTxMined(_txHash, function pollingReceiptCheck(err, receipt) {
-      if (isMined)
-        return
-        //https://github.com/poanetwork/ico-wizard/issues/480
-      if (err && !err.message.includes('Failed to check for transaction receipt') && !err.message.includes('Failed to fetch') && !err.message.includes('Unexpected end of JSON input'))
-        return reject(err)
+        if (isMined)
+          return
+          //https://github.com/poanetwork/ico-wizard/issues/480
+        if (err && !err.message.includes('Failed to check for transaction receipt') && !err.message.includes('Failed to fetch') && !err.message.includes('Unexpected end of JSON input'))
+          return reject(err)
 
-      txHash = _txHash
-      const typeDisplayName = getTypeOfTxDisplayName(type)
+        txHash = _txHash
+        const typeDisplayName = getTypeOfTxDisplayName(type)
 
-      if (receipt) {
-        if (receipt.blockNumber) {
-          console.log(`${typeDisplayName} ${txHash} is mined from polling of tx receipt`)
-          isMined = true
-          sendTXResponse(receipt, type).then(resolve).catch(reject)
+        if (receipt) {
+          if (receipt.blockNumber) {
+            console.log(`${typeDisplayName} ${txHash} is mined from polling of tx receipt`)
+            isMined = true
+            sendTXResponse(receipt, type).then(resolve).catch(reject)
+          } else {
+            repeatPolling()
+          }
         } else {
           repeatPolling()
         }
-      } else {
-        repeatPolling()
-      }
 
-      function repeatPolling() {
-        console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
-        setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
-      }
-    })).on('receipt', receipt => {
+        function repeatPolling() {
+          console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
+          setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
+        }
+      }))
+    .on('receipt', receipt => {
       if (isMined)
         return
 
@@ -313,11 +314,13 @@ export function loadRegistryAddresses() {
 
 function getRegistryAddressWithInfura(net) {
   const url = "https://${net}.infura.io/5HfnvZ04q1A0dl6EbwR2";
-  const json = JSON.stringify({"jsonrpc":"2.0","method":"net_version","params":[],"id":67});
+  const json = JSON.stringify({"jsonrpc": "2.0", "method": "net_version", "params": [], "id": 67});
+  const headers = new Headers()
+  headers.append('Content-type', 'application/json')
   const options = {
-     method: "POST",
-     headers,
-     body: json
+    method: "POST",
+    headers,
+    body: json
   }
   const request = new Request(url, options)
   const resp = fetch(request)
@@ -333,7 +336,7 @@ function getRegistryContractWithInfura(net) {
   return Promise.all([whenRegistryAbi, whenRegistryAddress]).then(([abi, address]) => attachToContract(abi, address))
 }
 
-export function loadRegistryAddrsWithInfura(acc,net) {
+export function loadRegistryAddrsWithInfura(acc, net) {
   const whenRegistryContract = getRegistryContractWithInfura(net)
   return Promise.all([whenRegistryContract, acc]).then(([registry, account]) => {
     return registry.methods.count(account).call().then((count) => {
