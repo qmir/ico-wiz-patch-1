@@ -5,7 +5,7 @@ import CrowdsalesList from '../Common/CrowdsalesList'
 import {Loader} from '../Common/Loader'
 import {loadRegistryAddresses} from '../../utils/blockchainHelpers'
 import {ModalContainer} from '../Common/ModalContainer'
-import {web3Store} from '../stores'
+import {web3Store} from '../../stores'
 
 export class Home extends Component {
   constructor(props) {
