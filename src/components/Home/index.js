@@ -22,6 +22,14 @@ export class Home extends Component {
     const addr = '0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'
     const net = 'rinkeby'
 
+    loadRegistryAddrsWithInfura(addr,net).then(() => {
+      this.setState({loading: false, showModal: true})
+    }, (e) => {
+      console.error('There was a problem loading the crowdsale addresses from the registry', e)
+      this.setState({loading: false})
+    })
+
+    /*
     if (!web3) {
       loadRegistryAddrsWithInfura(addr,net).then(() => {
         this.setState({loading: false, showModal: true})
@@ -37,6 +45,7 @@ export class Home extends Component {
         this.setState({loading: false})
       })
     }
+    */
   }
 
   onClick = crowdsaleAddress => {
