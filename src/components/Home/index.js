@@ -20,7 +20,7 @@ export class Home extends Component {
     const {web3} = web3Store
     this.setState({loading: true})
     const addr = '0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'
-    const net = 'mainnet'
+    const net = 'rinkeby'
 
     if (!web3) {
       loadRegistryAddrsWithInfura(addr,net).then(() => {
