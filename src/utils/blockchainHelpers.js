@@ -297,31 +297,19 @@ export function loadRegistryAddresses() {
 //////////////////////////////////////////////////////
 // Infura
 
-async function getRegistryAddressWithInfura(net) {
-  const url = "https://${net}.infura.io/5HfnvZ04q1A0dl6EbwR2";
-  const json = JSON.stringify({"jsonrpc": "2.0", "method": "net_version", "params": [], "id": 67});
-  const headers = new Headers()
-  headers.append('Content-type', 'application/json')
-  const options = {
-    method: "POST",
-    headers,
-    body: json
-  }
-  const resp = await fetch(url, options)
-  return resp.json().then(res => {
-    const registryAddressMap = JSON.parse(process.env['REACT_APP_REGISTRY_ADDRESS'] || '{}')
-    return registryAddressMap[res.result]
-  });
+function getRegistryAddressWithInfura(netId) {
+  const registryAddressMap = JSON.parse(process.env['REACT_APP_REGISTRY_ADDRESS'] || '{}')
+  return registryAddressMap[netId]
 }
 
-function getRegistryContractWithInfura(net) {
+function getRegistryContractWithInfura(netId) {
   const whenRegistryAbi = getRegistryAbi().then(JSON.parse)
-  const whenRegistryAddress = getRegistryAddressWithInfura(net)
+  const whenRegistryAddress = getRegistryAddressWithInfura(netId)
   return Promise.all([whenRegistryAbi, whenRegistryAddress]).then(([abi, address]) => attachToContract(abi, address))
 }
 
-export function loadRegistryAddrsWithInfura(acc, net) {
-  const whenRegistryContract = getRegistryContractWithInfura(net)
+export function loadRegistryAddrsWithInfura(acc, netId) {
+  const whenRegistryContract = getRegistryContractWithInfura(netId)
   return Promise.all([whenRegistryContract, acc]).then(([registry, account]) => {
     return registry.methods.count(account).call().then((count) => {
       const crowdsales = []
