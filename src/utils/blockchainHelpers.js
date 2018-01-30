@@ -165,40 +165,40 @@ let sendTX = (method, type) => {
     // transaction, because there wasn't response from it, no receipt. Especially, if you switch between tabs when
     // wizard works.
     // https://github.com/oraclesorg/ico-wizard/pull/364/files/c86c3e8482ef078e0cb46b8bebf57a9187f32181#r152277434
-    .on('transactionHash', _txHash => checkTxMined(_txHash, function pollingReceiptCheck(err, receipt) {
-      if (isMined)
-        return
-        //https://github.com/poanetwork/ico-wizard/issues/480
-      if (err && !err.message.includes('Failed to check for transaction receipt') && !err.message.includes('Failed to fetch') && !err.message.includes('Unexpected end of JSON input'))
-        return reject(err)
+      .on('transactionHash', _txHash => checkTxMined(_txHash, function pollingReceiptCheck(err, receipt) {
+        if (isMined)
+          return
+          //https://github.com/poanetwork/ico-wizard/issues/480
+        if (err && !err.message.includes('Failed to check for transaction receipt') && !err.message.includes('Failed to fetch') && !err.message.includes('Unexpected end of JSON input'))
+          return reject(err)
 
-      txHash = _txHash
-      const typeDisplayName = getTypeOfTxDisplayName(type)
+        txHash = _txHash
+        const typeDisplayName = getTypeOfTxDisplayName(type)
 
-      if (receipt) {
-        if (receipt.blockNumber) {
-          console.log(`${typeDisplayName} ${txHash} is mined from polling of tx receipt`)
-          isMined = true
-          sendTXResponse(receipt, type).then(resolve).catch(reject)
+        if (receipt) {
+          if (receipt.blockNumber) {
+            console.log(`${typeDisplayName} ${txHash} is mined from polling of tx receipt`)
+            isMined = true
+            sendTXResponse(receipt, type).then(resolve).catch(reject)
+          } else {
+            repeatPolling()
+          }
         } else {
           repeatPolling()
         }
-      } else {
-        repeatPolling()
-      }
 
-      function repeatPolling() {
-        console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
-        setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
-      }
-    })).on('receipt', receipt => {
-      if (isMined)
-        return
-      const typeDisplayName = getTypeOfTxDisplayName(type)
-      console.log(`${typeDisplayName} ${txHash} is mined from Promise`)
-      isMined = true
-      sendTXResponse(receipt, type).then(resolve).catch(reject)
-    })
+        function repeatPolling() {
+          console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
+          setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
+        }
+      })).on('receipt', receipt => {
+        if (isMined)
+          return
+        const typeDisplayName = getTypeOfTxDisplayName(type)
+        console.log(`${typeDisplayName} ${txHash} is mined from Promise`)
+        isMined = true
+        sendTXResponse(receipt, type).then(resolve).catch(reject)
+      })
   })
 
 }
