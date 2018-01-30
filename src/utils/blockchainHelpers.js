@@ -305,11 +305,14 @@ function getRegistryAddressWithInfura(netId) {
 function getRegistryContractWithInfura(netId) {
   const whenRegistryAbi = getRegistryAbi().then(JSON.parse)
   const whenRegistryAddress = getRegistryAddressWithInfura(netId)
+  console.log(whenRegistryAbi);
+  console.log(whenRegistryAddress);
   return Promise.all([whenRegistryAbi, whenRegistryAddress]).then(([abi, address]) => attachToContract(abi, address))
 }
 
 export function loadRegistryAddrsWithInfura(acc, netId) {
   const whenRegistryContract = getRegistryContractWithInfura(netId)
+  console.log(whenRegistryContract);
   return Promise.all([whenRegistryContract, acc]).then(([registry, account]) => {
     return registry.methods.count(account).call().then((count) => {
       const crowdsales = []
