@@ -5,9 +5,9 @@ class Web3Store {
 
   @observable web3;
   @observable curAddress
-	@observable accounts
+  @observable accounts
 
-	constructor(strategies) {
+  constructor(strategies) {
     this.getWeb3((web3) => {
       if (web3) {
         this.web3 = web3
