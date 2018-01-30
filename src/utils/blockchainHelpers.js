@@ -165,7 +165,7 @@ let sendTX = (method, type) => {
     // transaction, because there wasn't response from it, no receipt. Especially, if you switch between tabs when
     // wizard works.
     // https://github.com/oraclesorg/ico-wizard/pull/364/files/c86c3e8482ef078e0cb46b8bebf57a9187f32181#r152277434
-      .on('transactionHash', _txHash => checkTxMined(_txHash, function pollingReceiptCheck(err, receipt) {
+    .on('transactionHash', _txHash => checkTxMined(_txHash, function pollingReceiptCheck(err, receipt) {
       if (isMined)
         return
         //https://github.com/poanetwork/ico-wizard/issues/480
