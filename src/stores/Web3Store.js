@@ -27,7 +27,9 @@ class Web3Store {
       const devEnvironment = process.env.NODE_ENV === 'development';
       if (devEnvironment) {
         web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-      }
+      } else {
+	      web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/5HfnvZ04q1A0dl6EbwR2'));
+			}
 
       cb(web3, false);
     } else {

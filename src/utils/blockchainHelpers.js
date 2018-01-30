@@ -6,9 +6,9 @@ import deploymentStore from '../stores/DeploymentStore';
 const DEPLOY_CONTRACT = 1;
 const CALL_METHOD = 2;
 
+//
 export function checkWeb3() {
   const {web3} = web3Store;
-
   if (!web3) {
     setTimeout(() => {
       web3Store.getWeb3(web3 => {
@@ -17,24 +17,23 @@ export function checkWeb3() {
         checkMetaMask();
       });
     }, 500);
-
   } else {
     checkMetaMask();
   }
 }
 
+//
 const checkMetaMask = () => {
   const {web3} = web3Store
-
   web3.eth.getAccounts().then(accounts => {
     if (accounts.length === 0)
       return noMetaMaskAlert()
   })
 }
 
+//
 export function checkNetWorkByID(_networkIdFromGET) {
   console.log(_networkIdFromGET)
-
   if (!_networkIdFromGET)
     return invalidNetworkIDAlert()
 
@@ -57,6 +56,7 @@ export function checkNetWorkByID(_networkIdFromGET) {
   })
 }
 
+//
 export function getNetWorkNameById(_id) {
   switch (parseInt(_id, 10)) {
     case 1:
@@ -76,12 +76,14 @@ export function getNetWorkNameById(_id) {
   }
 }
 
+//
 export const calculateGasLimit = (estimatedGas = 0) => {
   return !estimatedGas || estimatedGas > MAX_GAS_PRICE
     ? MAX_GAS_PRICE
     : estimatedGas + 100000
 }
 
+//
 export function getNetworkVersion() {
   const {web3} = web3Store
 
@@ -91,6 +93,7 @@ export function getNetworkVersion() {
   return Promise.resolve(null)
 }
 
+//
 export function setExistingContractParams(abi, addr, setContractProperty) {
   attachToContract(abi, addr).then(crowdsaleContract => {
     crowdsaleContract.token.call(function(err, tokenAddr) {
@@ -111,6 +114,7 @@ export function setExistingContractParams(abi, addr, setContractProperty) {
   })
 }
 
+//
 export const deployContract = (i, abi, bin, params) => {
   const {web3} = web3Store
   const deployOpts = {
@@ -121,6 +125,7 @@ export const deployContract = (i, abi, bin, params) => {
   return web3.eth.getAccounts().then(accounts => deployContractInner(accounts, abi, deployOpts))
 }
 
+//
 const deployContractInner = (accounts, abi, deployOpts) => {
   console.log('abi', abi)
 
@@ -140,6 +145,7 @@ const deployContractInner = (accounts, abi, deployOpts) => {
   })
 }
 
+//
 export function sendTXToContract(method) {
   return sendTX(method, CALL_METHOD)
 }
@@ -160,32 +166,32 @@ let sendTX = (method, type) => {
     // wizard works.
     // https://github.com/oraclesorg/ico-wizard/pull/364/files/c86c3e8482ef078e0cb46b8bebf57a9187f32181#r152277434
       .on('transactionHash', _txHash => checkTxMined(_txHash, function pollingReceiptCheck(err, receipt) {
-        if (isMined)
-          return
-          //https://github.com/poanetwork/ico-wizard/issues/480
-        if (err && !err.message.includes('Failed to check for transaction receipt') && !err.message.includes('Failed to fetch') && !err.message.includes('Unexpected end of JSON input'))
-          return reject(err)
+      if (isMined)
+        return
+        //https://github.com/poanetwork/ico-wizard/issues/480
+      if (err && !err.message.includes('Failed to check for transaction receipt') && !err.message.includes('Failed to fetch') && !err.message.includes('Unexpected end of JSON input'))
+        return reject(err)
 
-        txHash = _txHash
-        const typeDisplayName = getTypeOfTxDisplayName(type)
+      txHash = _txHash
+      const typeDisplayName = getTypeOfTxDisplayName(type)
 
-        if (receipt) {
-          if (receipt.blockNumber) {
-            console.log(`${typeDisplayName} ${txHash} is mined from polling of tx receipt`)
-            isMined = true
-            sendTXResponse(receipt, type).then(resolve).catch(reject)
-          } else {
-            repeatPolling()
-          }
+      if (receipt) {
+        if (receipt.blockNumber) {
+          console.log(`${typeDisplayName} ${txHash} is mined from polling of tx receipt`)
+          isMined = true
+          sendTXResponse(receipt, type).then(resolve).catch(reject)
         } else {
           repeatPolling()
         }
-        function repeatPolling() {
-          console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
-          setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
-        }
-      }))
-    .on('receipt', receipt => {
+      } else {
+        repeatPolling()
+      }
+
+      function repeatPolling() {
+        console.log(`${typeDisplayName} ${txHash} is still pending. Polling of transaction once more`)
+        setTimeout(() => checkTxMined(txHash, pollingReceiptCheck), 5000)
+      }
+    })).on('receipt', receipt => {
       if (isMined)
         return
       const typeDisplayName = getTypeOfTxDisplayName(type)
@@ -197,6 +203,7 @@ let sendTX = (method, type) => {
 
 }
 
+//
 const sendTXResponse = (receipt, type) => {
   if (0 !== + receipt.status || null === receipt.status) {
     return type === DEPLOY_CONTRACT
@@ -207,6 +214,7 @@ const sendTXResponse = (receipt, type) => {
   }
 }
 
+//
 export const checkTxMined = (txHash, _pollingReceiptCheck) => {
   const {web3} = web3Store
   web3.eth.getTransactionReceipt(txHash, (err, receipt) => {
@@ -216,6 +224,7 @@ export const checkTxMined = (txHash, _pollingReceiptCheck) => {
   })
 }
 
+//
 const getTypeOfTxDisplayName = (type) => {
   const deployContractTypeDisplayName = 'Contract deployment transaction'
   const callMethodTypeDisplayName = 'Contract method transaction'
@@ -229,6 +238,7 @@ const getTypeOfTxDisplayName = (type) => {
   }
 }
 
+//
 export function attachToContract(abi, addr) {
   const {web3} = web3Store
   return web3.eth.getAccounts().then(accounts => {
@@ -237,6 +247,7 @@ export function attachToContract(abi, addr) {
   })
 }
 
+//
 function getRegistryAddress() {
   const {web3} = web3Store
   return web3.eth.net.getId().then(networkId => {
@@ -245,6 +256,7 @@ function getRegistryAddress() {
   })
 }
 
+//
 export function registerCrowdsaleAddress() {
   const {web3} = web3Store
   const toJS = x => JSON.parse(JSON.stringify(x))
@@ -262,16 +274,19 @@ export function registerCrowdsaleAddress() {
   }).then(() => deploymentStore.setAsSuccessful('registerCrowdsaleAddress'))
 }
 
+//
 function getRegistryAbi() {
   return fetchFile('./contracts/Registry_flat.abi')
 }
 
+//
 function getRegistryContract() {
   const whenRegistryAbi = getRegistryAbi().then(JSON.parse)
   const whenRegistryAddress = getRegistryAddress()
   return Promise.all([whenRegistryAbi, whenRegistryAddress]).then(([abi, address]) => attachToContract(abi, address))
 }
 
+//
 export function loadRegistryAddresses() {
   const {web3} = web3Store
   const whenRegistryContract = getRegistryContract()
@@ -296,12 +311,13 @@ export function loadRegistryAddresses() {
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 // Infura
-
+//
 function getRegistryAddressWithInfura(netId) {
   const registryAddressMap = JSON.parse(process.env['REACT_APP_REGISTRY_ADDRESS'] || '{}')
   return registryAddressMap[netId]
 }
 
+//
 function getRegistryContractWithInfura(netId) {
   const whenRegistryAbi = getRegistryAbi().then(JSON.parse)
   const whenRegistryAddress = getRegistryAddressWithInfura(netId)
@@ -310,6 +326,7 @@ function getRegistryContractWithInfura(netId) {
   return Promise.all([whenRegistryAbi, whenRegistryAddress]).then(([abi, address]) => attachToContract(abi, address))
 }
 
+//
 export function loadRegistryAddrsWithInfura(acc, netId) {
   const whenRegistryContract = getRegistryContractWithInfura(netId)
   console.log(whenRegistryContract);
