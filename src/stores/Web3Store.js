@@ -7,7 +7,6 @@ class Web3Store {
   @observable curAddress
   @observable accounts
   
-  //
   constructor(strategies) {
     this.getWeb3((web3) => {
       if (web3) {
