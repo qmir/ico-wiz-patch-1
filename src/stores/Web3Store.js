@@ -6,7 +6,7 @@ class Web3Store {
   @observable web3;
   @observable curAddress
   @observable accounts
-  
+
   constructor(strategies) {
     this.getWeb3((web3) => {
       if (web3) {
