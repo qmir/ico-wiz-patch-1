@@ -1,13 +1,10 @@
 import Web3 from 'web3'
-import { observable } from 'mobx';
+import {observable} from 'mobx';
 
 class Web3Store {
 
   @observable web3;
-  @observable curAddress
-  @observable accounts
-
-  constructor(strategies) {
+  @observable curAddress @observable accounts constructor(strategies) {
     this.getWeb3((web3) => {
       if (web3) {
         this.web3 = web3
@@ -28,8 +25,8 @@ class Web3Store {
       if (devEnvironment) {
         web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
       } else {
-	      web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/5HfnvZ04q1A0dl6EbwR2'));
-			}
+        web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/5HfnvZ04q1A0dl6EbwR2'));
+      }
 
       cb(web3, false);
     } else {
@@ -46,4 +43,6 @@ class Web3Store {
 const web3Store = new Web3Store();
 
 export default web3Store;
-export { Web3Store };
+export {
+  Web3Store
+};
