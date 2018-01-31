@@ -61,13 +61,13 @@ export class Home extends Component {
     })
   }
 
-  onClick = crowdsaleAddress => {
-    this.props.history.push('/manage/' + crowdsaleAddress)
-  }
-
   updateAddress = (event) => {
     const val = event.target.value;
     this.state.address = val;
+  }
+
+  onClick = crowdsaleAddress => {
+    this.props.history.push('/manage/' + crowdsaleAddress)
   }
 
   hideModal = () => {
@@ -133,10 +133,12 @@ export class Home extends Component {
             </div>
           </div>
         </div>
-        <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}> showModal={this.state.showModalInp}>
+
+        <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
           <CrowdsalesList onClick={this.onClick}/>
         </ModalContainer>
-        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp}
+
+        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
           <InputField side='left' type='text'
             errorMessage={}
             valid={}
@@ -147,6 +149,7 @@ export class Home extends Component {
           />
         <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
         </ModalContainer>
+
         <Loader show={this.state.loading}></Loader>
       </section>
     </div>);
