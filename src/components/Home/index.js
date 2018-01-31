@@ -35,19 +35,51 @@ export class Home extends Component {
     } else {
       this.setState({loading: false, showModal: false, showModalInp: true})
       //
+      /*
       loadRegistryAddrsWithInfura(addr,netId).then(() => {
         this.setState({loading: false, showModal: true})
       }, (e) => {
         console.error('There was a problem loading the crowdsale addresses from the registry', e)
         this.setState({loading: false})
       })
+      */
     }
     //
 
   }
 
+  onSubmitInp = () => {
+    const addr = this.state.address;
+    const net = this.state.net;
+    const netId;
+    if (net == 'Rinkeby') {
+      netId = '4'
+    }
+    
+    loadRegistryAddrsWithInfura(addr,netId).then(() => {
+      this.setState({loading: false, showModal: true})
+    }, (e) => {
+      console.error('There was a problem loading the crowdsale addresses from the registry', e)
+      this.setState({loading: false})
+    })
+  }
+
+  onInput = crowdsaleAddress => {
+    this.props.history.push('/manage/' + crowdsaleAddress)
+  }
+
   onClick = crowdsaleAddress => {
     this.props.history.push('/manage/' + crowdsaleAddress)
+  }
+
+  updateAddress = (event) => {
+    const val = event.target.value;
+    this.state.address = val;
+  }
+
+  updateNet = (event) => {
+    const val = event.target.value;
+    this.state.net = val;
   }
 
   hideModal = () => {
@@ -117,7 +149,23 @@ export class Home extends Component {
           <CrowdsalesList onClick={this.onClick}/>
         </ModalContainer>
         <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp}
-          <CrowdsalesList onClick={this.onClick}/>
+          <InputField side='left' type='text'
+            errorMessage={}
+            valid={}
+            title={'Address'}
+            value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
+            onChange={this.updateAddress()}
+            description={`Your Ethereum wallet address.`}
+          />
+          <InputField side='left' type='text'
+            errorMessage={}
+            valid={}
+            title={'Address'}
+            value={'Rinkeby'}
+            onChange={this.updateNet()}
+            description={`Your Ethereum wallet address.`}
+          />
+        <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
         </ModalContainer>
         <Loader show={this.state.loading}></Loader>
       </section>
