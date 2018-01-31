@@ -51,7 +51,6 @@ export class Home extends Component {
   onSubmitInp = () => {
     this.setState({loading: true})
     const addr = this.state.address
-    const net = this.state.net
     const netId = '4'
 
     loadRegistryAddrsWithInfura(addr,netId).then(() => {
@@ -62,10 +61,6 @@ export class Home extends Component {
     })
   }
 
-  onInput = crowdsaleAddress => {
-    this.props.history.push('/manage/' + crowdsaleAddress)
-  }
-
   onClick = crowdsaleAddress => {
     this.props.history.push('/manage/' + crowdsaleAddress)
   }
@@ -73,11 +68,6 @@ export class Home extends Component {
   updateAddress = (event) => {
     const val = event.target.value;
     this.state.address = val;
-  }
-
-  updateNet = (event) => {
-    const val = event.target.value;
-    this.state.net = val;
   }
 
   hideModal = () => {
