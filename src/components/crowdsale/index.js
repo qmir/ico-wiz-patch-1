@@ -116,6 +116,10 @@ export class Crowdsale extends React.Component {
     this.props.history.push('/invest' + queryStr);
   }
 
+  checkMint = () => {
+
+  }
+
   render() {
     const { web3Store, contractStore, tokenStore, crowdsalePageStore } = this.props
     const { web3 } = web3Store
@@ -240,6 +244,9 @@ export class Crowdsale extends React.Component {
         </div>
         <div className="button-container">
           <a onClick={this.goToInvestPage} className="button button_fill">Invest</a>
+        </div>
+        <div className="button-container">
+          <a onClick={this.checkMint()} className="button button_fill">Check mint</a>
         </div>
         <Loader show={this.state.loading}></Loader>
       </section>

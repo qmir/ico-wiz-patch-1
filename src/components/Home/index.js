@@ -5,6 +5,7 @@ import CrowdsalesList from '../Common/CrowdsalesList'
 import {Loader} from '../Common/Loader'
 import {loadRegistryAddresses,loadRegistryAddrsWithInfura} from '../../utils/blockchainHelpers'
 import {ModalContainer} from '../Common/ModalContainer'
+import { InputField } from "../Common/InputField";
 import {web3Store} from '../../stores'
 
 export class Home extends Component {
@@ -147,7 +148,7 @@ export class Home extends Component {
             onChange={this.updateAddress()}
             description={`Your Ethereum wallet address.`}
           />
-        <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
+          <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
         </ModalContainer>
 
         <Loader show={this.state.loading}></Loader>
