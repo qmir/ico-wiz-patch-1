@@ -116,9 +116,23 @@ export class Crowdsale extends React.Component {
     this.props.history.push('/invest' + queryStr);
   }
 
-  checkMint = () => {
 
+
+
+  //
+  checkMint = () => {
+    const toJS = x => JSON.parse(JSON.stringify(x))
+    const { web3 } = web3Store
+    const { contractStore } = this.props
+    const tokenAddr = contractStore.token.addr
+    const tokenAbi = contractStore.token.abi
+    const token = new web3.eth.Contract(toJS(tokenAbi), tokenAddr)
+    const isMintable = token.methods.MintFinished()
+    console.log(isMintable);
   }
+  //
+
+
 
   render() {
     const { web3Store, contractStore, tokenStore, crowdsalePageStore } = this.props
