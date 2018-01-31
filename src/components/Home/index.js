@@ -12,6 +12,7 @@ export class Home extends Component {
     super(props)
     this.state = {
       showModal: false,
+      showModalInp: false,
       loading: false
     }
   }
@@ -32,6 +33,8 @@ export class Home extends Component {
         this.setState({loading: false})
       })
     } else {
+      this.setState({loading: false, showModal: false, showModalInp: true})
+      //
       loadRegistryAddrsWithInfura(addr,netId).then(() => {
         this.setState({loading: false, showModal: true})
       }, (e) => {
@@ -110,8 +113,10 @@ export class Home extends Component {
             </div>
           </div>
         </div>
-        <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be
-           able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
+        <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}> showModal={this.state.showModalInp}>
+          <CrowdsalesList onClick={this.onClick}/>
+        </ModalContainer>
+        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp}
           <CrowdsalesList onClick={this.onClick}/>
         </ModalContainer>
         <Loader show={this.state.loading}></Loader>
