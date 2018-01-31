@@ -121,9 +121,9 @@ export class Crowdsale extends React.Component {
 
   //
   checkMint = () => {
-    const toJS = x => JSON.parse(JSON.stringify(x))
+    const { contractStore, web3Store } = this.props
     const { web3 } = web3Store
-    const { contractStore } = this.props
+    const toJS = x => JSON.parse(JSON.stringify(x))
     const tokenAddr = contractStore.token.addr
     const tokenAbi = contractStore.token.abi
     const token = new web3.eth.Contract(toJS(tokenAbi), tokenAddr)

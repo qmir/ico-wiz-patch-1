@@ -63,8 +63,8 @@ export class Home extends Component {
   }
 
   updateAddress = (event) => {
-    const val = event.target.value;
-    this.state.address = val;
+    const val = event.target.value
+    this.state.address = val
   }
 
   onClick = crowdsaleAddress => {
