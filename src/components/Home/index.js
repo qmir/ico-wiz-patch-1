@@ -49,14 +49,10 @@ export class Home extends Component {
   }
 
   onSubmitInp = () => {
-    const addr = {this.state.address}
-    const net = {this.state.net}
-    const netId = ''
-
-    // проверку заменить на выпадающий список сетей, в том числе и придумать как внедрить Сокол
-    if (net === 'Rinkeby') {
-      netId = '4'
-    }
+    this.setState({loading: true})
+    const addr = this.state.address
+    const net = this.state.net
+    const netId = '4'
 
     loadRegistryAddrsWithInfura(addr,netId).then(() => {
       this.setState({loading: false, showModal: true})
@@ -157,14 +153,6 @@ export class Home extends Component {
             title={'Address'}
             value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
             onChange={this.updateAddress()}
-            description={`Your Ethereum wallet address.`}
-          />
-          <InputField side='left' type='text'
-            errorMessage={}
-            valid={}
-            title={'Address'}
-            value={'Rinkeby'}
-            onChange={this.updateNet()}
             description={`Your Ethereum wallet address.`}
           />
         <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
