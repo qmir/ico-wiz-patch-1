@@ -19,8 +19,8 @@ export class Home extends Component {
   }
 
   chooseContract = () => {
-    const {web3} = web3Store
-    this.setState({loading: true})
+    const {web3} = web3Store;
+    this.setState({loading: true});
 
     if (web3.eth.accounts[0]) {
       loadRegistryAddresses().then(() => {
@@ -50,7 +50,7 @@ export class Home extends Component {
 
   updateAddress = (event) => {
     const val = event.target.value
-    this.state.address = val
+    this.setState(this.state,...{address: val}))
   }
 
   onClick = crowdsaleAddress => {
@@ -129,17 +129,6 @@ export class Home extends Component {
           <CrowdsalesList onClick={this.onClick}/>
         </ModalContainer>
 
-        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
-          <InputField side='left' type='text'
-            errorMessage={''}
-            valid={''}
-            title={'Address'}
-            value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
-            onChange={e => this.updateAddress(e)}
-            description={`Your Ethereum wallet address.`}
-          />
-          <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
-        </ModalContainer>
 
         <Loader show={this.state.loading}></Loader>
       </section>
