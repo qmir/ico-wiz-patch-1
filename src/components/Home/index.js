@@ -125,9 +125,13 @@ export class Home extends Component {
           </div>
         </div>
 
-        <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
-          { this.state.showModalInp
-            ? <InputField side='left' type='text'
+        { this.state.showModalInp
+          ? <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
+              <CrowdsalesList onClick={this.onClick}/>
+            </ModalContainer>
+
+          : <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModal} showModal={this.state.showModal}>
+              <InputField side='left' type='text'
                 errorMessage={''}
                 valid={''}
                 title={'Address'}
@@ -135,23 +139,12 @@ export class Home extends Component {
                 onChange={e => this.updateAddress(e)}
                 description={`Your Ethereum wallet address.`}
               />
-            : <CrowdsalesList onClick={this.onClick}/>
-          }
-          { this.state.showModalInp
-            ? <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
-            : null
-          }
-        </ModalContainer>
-
+              <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
+            </ModalContainer>
+        }
 
         <Loader show={this.state.loading}></Loader>
       </section>
     </div>);
   }
 }
-
-/*
-
-        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
-        </ModalContainer>
-*/
