@@ -24,31 +24,23 @@ export class Home extends Component {
     const addr = '0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'
     const netId = '4'
 
-    loadRegistryAddrsWithInfura(addr,netId).then(() => {
-      this.setState({loading: false, showModal: true})
-    }, (e) => {
-      console.error('There was a problem loading the crowdsale addresses from the registry', e)
-      this.setState({loading: false})
-    })
-    //
-
-    /*
-    if (!web3) {
-      loadRegistryAddrsWithInfura(addr,net).then(() => {
-        this.setState({loading: false, showModal: true})
-      }, (e) => {
-        console.error('There was a problem loading the crowdsale addresses from the registry', e)
-        this.setState({loading: false})
-      })
-    } else {
+    if (web3.eth.accounts[0]) {
       loadRegistryAddresses().then(() => {
         this.setState({loading: false, showModal: true})
       }, (e) => {
         console.error('There was a problem loading the crowdsale addresses from the registry', e)
         this.setState({loading: false})
       })
+    } else {
+      loadRegistryAddrsWithInfura(addr,netId).then(() => {
+        this.setState({loading: false, showModal: true})
+      }, (e) => {
+        console.error('There was a problem loading the crowdsale addresses from the registry', e)
+        this.setState({loading: false})
+      })
     }
-    */
+    //
+
   }
 
   onClick = crowdsaleAddress => {
