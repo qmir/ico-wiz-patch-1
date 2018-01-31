@@ -49,13 +49,15 @@ export class Home extends Component {
   }
 
   onSubmitInp = () => {
-    const addr = this.state.address;
-    const net = this.state.net;
-    const netId;
+    const addr = this.state.address
+    const net = this.state.net
+    const netId
+
+    // проверку заменить на выпадающий список сетей, в том числе и придумать как внедрить Сокол
     if (net == 'Rinkeby') {
       netId = '4'
     }
-    
+
     loadRegistryAddrsWithInfura(addr,netId).then(() => {
       this.setState({loading: false, showModal: true})
     }, (e) => {
