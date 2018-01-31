@@ -140,8 +140,8 @@ export class Home extends Component {
 
         <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
           <InputField side='left' type='text'
-            errorMessage={}
-            valid={}
+            errorMessage={''}
+            valid={''}
             title={'Address'}
             value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
             onChange={this.updateAddress()}
