@@ -137,14 +137,21 @@ export class Home extends Component {
               />
             : <CrowdsalesList onClick={this.onClick}/>
           }
-          <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
+          { this.state.showModalInp
+            ? <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
+            : null
+          }
         </ModalContainer>
 
-        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
-        </ModalContainer>
 
         <Loader show={this.state.loading}></Loader>
       </section>
     </div>);
   }
 }
+
+/*
+
+        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
+        </ModalContainer>
+*/
