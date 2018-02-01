@@ -22,23 +22,22 @@ export class Home extends Component {
   chooseContract = () => {
     this.setState({loading: true, showModal: false, showModalInp: false});
     const {web3} = web3Store;
-    console.log('Choose contract');
 
     if (!web3) {
       console.log('No Metamask, only Infura');
       this.setState({loading: false, showModalInp: true})
     } else {
-      if (web3.eth.accounts[0]) {
-        console.log('Metamask exists');
+      if (!web3.eth.accounts[0]) {
+        console.log('Metamask exists, but not logged in');
+        this.setState({loading: false, showModalInp: true})
+      } else {
+        console.log('Metamask exists and loggedd in');
         loadRegistryAddresses().then(() => {
           this.setState({loading: false, showModal: true})
         }, (e) => {
           console.error('There was a problem loading the crowdsale addresses from the registry', e)
           this.setState({loading: false})
         })
-      } else {
-        console.log('Metamask exists, but not logged in');
-        this.setState({loading: false, showModalInp: true})
       }
     }
 
