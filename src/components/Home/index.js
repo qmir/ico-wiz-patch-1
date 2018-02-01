@@ -3,6 +3,7 @@ import '../../assets/stylesheets/application.css';
 import {Link} from 'react-router-dom'
 import CrowdsalesList from '../Common/CrowdsalesList'
 import {Loader} from '../Common/Loader'
+import {Button} from '../Common/Button'
 import {loadRegistryAddresses,loadRegistryAddrsWithInfura} from '../../utils/blockchainHelpers'
 import {ModalContainer} from '../Common/ModalContainer'
 import { InputField } from "../Common/InputField";
@@ -135,14 +136,6 @@ export class Home extends Component {
         </div>
 
         <ModalContainer title={'InputBox for Ethereum address'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address to get information about your crowsales.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
-          <InputField side='left' type='text'
-            errorMessage={''}
-            valid={''}
-            title={'Address'}
-            value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
-            onChange={e => this.updateAddress(e)}
-            description={`Your Ethereum wallet address.`}
-          />
           <InputField side='left' type='text'
             errorMessage={''}
             valid={''}
