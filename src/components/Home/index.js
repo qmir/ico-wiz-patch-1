@@ -137,9 +137,14 @@ export class Home extends Component {
               />
               <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
             </ModalContainer>
-          : <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
+          : null
+        }
+
+        { !this.state.showModalInp
+          ? <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
               <CrowdsalesList onClick={this.onClick}/>
             </ModalContainer>
+          : null
         }
 
         <Loader show={this.state.loading}></Loader>
