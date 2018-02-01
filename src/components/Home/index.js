@@ -19,8 +19,8 @@ export class Home extends Component {
   }
 
   chooseContract = () => {
-    const {web3} = web3Store;
     this.setState({loading: true});
+    const {web3} = web3Store;
 
     if (web3.eth.accounts[0]) {
       loadRegistryAddresses().then(() => {
@@ -30,7 +30,7 @@ export class Home extends Component {
         this.setState({loading: false})
       })
     } else {
-      this.setState({loading: false, showModal: false, showModalInp: true})
+      this.setState({loading: false, showModalInp: true, showModal: true})
     }
 
   }
@@ -41,7 +41,7 @@ export class Home extends Component {
     const netId = '4'
 
     loadRegistryAddrsWithInfura(addr,netId).then(() => {
-      this.setState({loading: false, showModal: true})
+      this.setState({loading: false, showModal: false})
     }, (e) => {
       console.error('There was a problem loading the crowdsale addresses from the registry', e)
       this.setState({loading: false})
@@ -125,11 +125,22 @@ export class Home extends Component {
           </div>
         </div>
 
-
-        <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
-            <CrowdsalesList onClick={this.onClick}/>
-          </ModalContainer>
-
+        { this.state.showModalInp
+          ? <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModal} showModal={this.state.showModal}>
+              <InputField side='left' type='text'
+                errorMessage={''}
+                valid={''}
+                title={'Address'}
+                value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
+                onChange={e => this.updateAddress(e)}
+                description={`Your Ethereum wallet address.`}
+              />
+              <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
+            </ModalContainer>
+          : <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
+              <CrowdsalesList onClick={this.onClick}/>
+            </ModalContainer>
+        }
 
         <Loader show={this.state.loading}></Loader>
       </section>
