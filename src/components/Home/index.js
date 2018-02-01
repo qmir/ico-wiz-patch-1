@@ -49,7 +49,7 @@ export class Home extends Component {
     const netId = '4'
 
     loadRegistryAddrsWithInfura(addr,netId).then(() => {
-      this.setState({loading: false, showModal: false})
+      this.setState({loading: false, showModalInp: false, showModal: true})
     }, (e) => {
       console.error('There was a problem loading the crowdsale addresses from the registry', e)
       this.setState({loading: false})
@@ -143,8 +143,8 @@ export class Home extends Component {
             value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
             onChange={e => this.updateAddress(e)}
             description={`Your Ethereum wallet address.`}
-          />
-        <Button text='Continue' onClick={() => this.onSubmitInp()}/>
+          /><br />
+        <Button text='Continue' onClick={this.onSubmitInp}/>
         </ModalContainer>
 
         <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
