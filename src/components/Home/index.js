@@ -136,7 +136,7 @@ export class Home extends Component {
 
         <ModalContainer title={'InputBox for Ethereum address'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address to get information about your crowsales.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
           <InputField side='left' type='text'
-            disabled={false}
+            disabled={'false'}
             errorMessage={''}
             valid={''}
             title={'Address'}
