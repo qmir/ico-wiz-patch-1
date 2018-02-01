@@ -143,6 +143,14 @@ export class Home extends Component {
             onChange={e => this.updateAddress(e)}
             description={`Your Ethereum wallet address.`}
           />
+          <InputField side='left' type='text'
+            errorMessage={''}
+            valid={''}
+            title={'Address'}
+            value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
+            onChange={e => this.updateAddress(e)}
+            description={`Your Ethereum wallet address.`}
+          />
         </ModalContainer>
 
         <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
@@ -168,7 +176,7 @@ export class Home extends Component {
             onChange={e => this.updateAddress(e)}
             description={`Your Ethereum wallet address.`}
           />
-          <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
+          <div onClick={this.onSubmitInp} className="button button_fill"> Continue </div>
         </ModalContainer>
 
 */
