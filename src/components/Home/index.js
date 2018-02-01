@@ -137,6 +137,7 @@ export class Home extends Component {
 
         <ModalContainer title={'InputBox for Ethereum address'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address to get information about your crowsales.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
           <InputField side='left' type='text'
+            disabled={false}
             errorMessage={''}
             valid={''}
             title={'Address'}
@@ -144,7 +145,7 @@ export class Home extends Component {
             onChange={e => this.updateAddress(e)}
             description={`Your Ethereum wallet address.`}
           />
-          <Button text='Continue' onClick={this.onSubmitInp}/>
+        <Button text='Continue' onClick={() => this.onSubmitInp()}/>
         </ModalContainer>
 
         <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
