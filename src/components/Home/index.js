@@ -28,7 +28,7 @@ export class Home extends Component {
       this.setState({loading: false, showModalInp: true})
     } else {
       if (web3.eth.accounts[0]) {
-        console.log('Metamask exists, but no logged in');
+        console.log('Metamask exists');
         loadRegistryAddresses().then(() => {
           this.setState({loading: false, showModal: true})
         }, (e) => {
@@ -36,7 +36,7 @@ export class Home extends Component {
           this.setState({loading: false})
         })
       } else {
-        console.log('No Metamask, only Infura');
+        console.log('Metamask exists, but not logged in');
         this.setState({loading: false, showModalInp: true})
       }
     }
@@ -134,7 +134,8 @@ export class Home extends Component {
           </div>
         </div>
 
-        <ModalContainer title={'InputBox for address and net'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address and the name of a net, in which you have added your crowsale contract.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
+        <ModalContainer title={'InputBox for Ethereum address'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address to get information about your crowsales.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
+          <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
         </ModalContainer>
 
         <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
