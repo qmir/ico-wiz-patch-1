@@ -21,8 +21,10 @@ export class Home extends Component {
   chooseContract = () => {
     this.setState({loading: true});
     const {web3} = web3Store;
+    console.log('Choose contract');
 
     if (web3.eth.accounts[0]) {
+      console.log('Metamask yes, but no login');
       loadRegistryAddresses().then(() => {
         this.setState({loading: false, showModal: true})
       }, (e) => {
@@ -30,6 +32,7 @@ export class Home extends Component {
         this.setState({loading: false})
       })
     } else {
+      console.log('Metamask no, only Infura');
       this.setState({loading: false, showModalInp: true})
     }
 
