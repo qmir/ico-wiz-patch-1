@@ -130,7 +130,6 @@ export class Home extends Component {
             <CrowdsalesList onClick={this.onClick}/>
           </ModalContainer>
 
-          
 
         <Loader show={this.state.loading}></Loader>
       </section>
