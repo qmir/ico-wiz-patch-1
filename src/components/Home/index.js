@@ -19,11 +19,14 @@ export class Home extends Component {
   }
 
   chooseContract = () => {
-    this.setState({loading: true});
+    this.setState({loading: true, showModal: false, showModalInp: false});
     const {web3} = web3Store;
     console.log('Choose contract');
 
-    if (web3) {
+    if (!web3) {
+      console.log('No Metamask, only Infura');
+      this.setState({loading: false, showModalInp: true})
+    } else {
       if (web3.eth.accounts[0]) {
         console.log('Metamask exists, but no logged in');
         loadRegistryAddresses().then(() => {
@@ -36,9 +39,6 @@ export class Home extends Component {
         console.log('No Metamask, only Infura');
         this.setState({loading: false, showModalInp: true})
       }
-    } else {
-      console.log('No Metamask, only Infura');
-      this.setState({loading: false, showModalInp: true})
     }
 
   }
@@ -58,7 +58,8 @@ export class Home extends Component {
 
   updateAddress = (event) => {
     const val = event.target.value
-    this.setState(this.state,...{address: val})
+    //this.setState(this.state,...{address: val})
+    this.setState({address: val})
   }
 
   onClick = crowdsaleAddress => {
@@ -162,5 +163,4 @@ export class Home extends Component {
           <div onClick={this.onSubmitInp()} className="button button_fill"> Continue </div>
         </ModalContainer>
 
-
-            */
+*/
