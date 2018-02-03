@@ -144,7 +144,7 @@ export class Home extends Component {
             onChange={e => this.updateAddress(e)}
             description={`Your Ethereum wallet address.`}
           /><br />
-        <Button text='Continue' onClick={this.onSubmitInp}/>
+        <Button side='left' text='Continue' onClick={this.onSubmitInp}/>
         </ModalContainer>
 
         <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
