@@ -128,10 +128,10 @@ export class Crowdsale extends React.Component {
     const tokenAddr = contractStore.token.addr
     const tokenAbi = contractStore.token.abi
     const token = new web3.eth.Contract(toJS(tokenAbi), tokenAddr)
-    const mintingFinished = token.methods.mintingFinished();
-    mintingFinished.watch(function(error, result){
+    //const mintingFinished = token.methods.mintingFinished();
+    const res = token.mintingFinished().get(function(error, result){
       console.log(error);
-      console.log(result);
+      console.log(result[0]);
     });
 
     console.log('token.methods',token.methods);
