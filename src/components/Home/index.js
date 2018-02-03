@@ -23,6 +23,7 @@ export class Home extends Component {
     this.setState({loading: true, showModal: false, showModalInp: false});
 
     if (!window.web3) {
+      const {web3} = web3Store;
       console.log('No Metamask, only Infura');
       this.setState({loading: false, showModalInp: true})
     } else {
@@ -30,6 +31,7 @@ export class Home extends Component {
         console.log('Metamask exists, but not logged in');
         this.setState({loading: false, showModalInp: true})
       } else {
+        const {web3} = web3Store;
         console.log('Metamask exists and loggedd in');
         loadRegistryAddresses().then(() => {
           this.setState({loading: false, showModal: true})
@@ -43,7 +45,6 @@ export class Home extends Component {
   }
 
   onSubmitInp = () => {
-    const {web3} = web3Store;
     this.setState({loading: true})
     const addr = this.state.address
     const netId = '4'
