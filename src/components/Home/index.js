@@ -142,7 +142,6 @@ export class Home extends Component {
             errorMessage={''}
             valid={''}
             title={'Address'}
-            value={'0x3c8DF154241e6917959BcE6Ad1d8E3D3D1B13C64'}
             onChange={e => this.updateAddress(e)}
             description={`Your Ethereum wallet address.`}
           /><br />
