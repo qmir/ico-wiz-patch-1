@@ -56,7 +56,7 @@ export class Home extends Component {
       this.setState({loading: false, showModalInp: false, showModal: true})
     }, (e) => {
       const addressInpErr = 'Please, check your address. No crowsales for it.'
-      console.error(error, e)
+      console.error(addressInpErr, e)
       this.setState({loading: false, addressInpErr: addressInpErr})
     })
   }
