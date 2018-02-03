@@ -27,11 +27,11 @@ export class Home extends Component {
       console.log('No Metamask, only Infura');
       this.setState({loading: false, showModalInp: true})
     } else {
-      if (!web3.eth.accounts[0]) {
+      if (!window.web3.eth.accounts[0]) {
+        const {web3} = web3Store;
         console.log('Metamask exists, but not logged in');
         this.setState({loading: false, showModalInp: true})
       } else {
-        const {web3} = web3Store;
         console.log('Metamask exists and loggedd in');
         loadRegistryAddresses().then(() => {
           this.setState({loading: false, showModal: true})
@@ -137,7 +137,6 @@ export class Home extends Component {
 
         <ModalContainer title={'InputBox for Ethereum address'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address to get information about your crowsales.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
           <InputField side='left' type='text'
-            disabled={'false'}
             errorMessage={''}
             valid={''}
             title={'Address'}
