@@ -129,17 +129,20 @@ export class Crowdsale extends React.Component {
     const tokenAbi = contractStore.token.abi
     const token = new web3.eth.Contract(toJS(tokenAbi), tokenAddr)
     //const mintingFinished = token.methods.mintingFinished();
-    const res = token.methods.MintFinished().get(function(error, result){
+    console.log('token.events',token.events);
+    /*
+    const res = token.events.MintFinished().get(function(error, result){
       console.log(error);
       console.log(result[0]);
     });
-
     console.log('token.methods',token.methods);
+    */
+
     // crowsale
     const crowdsaleAddr = contractStore.crowdsale.addr
     const crowdsaleAbi = contractStore.crowdsale.abi
     const crowdsale = new web3.eth.Contract(toJS(crowdsaleAbi), crowdsaleAddr)
-    console.log('crowdsale.methods',crowdsale.methods);
+    console.log('crowdsale.events',crowdsale.events);
   }
   //
 
