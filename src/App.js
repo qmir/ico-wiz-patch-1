@@ -10,7 +10,7 @@ import AlertContainer from 'react-alert'
 import { TOAST } from './utils/constants'
 import { toast } from './utils/utils'
 
-console.log('stepThree', stepThree, 'stepTwo', stepTwo)
+//console.log('stepThree', stepThree, 'stepTwo', stepTwo)
 class App extends Component {
   render() {
     var crowdsaleAddr = getQueryVariable("addr");

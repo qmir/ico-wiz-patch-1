@@ -21,9 +21,8 @@ export class Home extends Component {
 
   chooseContract = () => {
     this.setState({loading: true, showModal: false, showModalInp: false});
-    const {web3} = web3Store;
 
-    if (!web3) {
+    if (!window.web3) {
       console.log('No Metamask, only Infura');
       this.setState({loading: false, showModalInp: true})
     } else {
@@ -44,6 +43,7 @@ export class Home extends Component {
   }
 
   onSubmitInp = () => {
+    const {web3} = web3Store;
     this.setState({loading: true})
     const addr = this.state.address
     const netId = '4'
