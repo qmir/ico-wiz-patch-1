@@ -17,7 +17,8 @@ export class Home extends Component {
     this.state = {
       showModal: false,
       showModalInp: false,
-      loading: false
+      loading: false,
+      addressInpErr: ''
     }
   }
 
@@ -47,15 +48,16 @@ export class Home extends Component {
   }
 
   onSubmitInp = () => {
-    this.setState({loading: true})
+    this.setState({loading: true, addressInpErr: ''})
     const addr = this.state.address
     const netId = '4'
 
     loadRegistryAddrsWithInfura(addr,netId).then(() => {
       this.setState({loading: false, showModalInp: false, showModal: true})
     }, (e) => {
-      console.error('There was a problem loading the crowdsale addresses from the registry', e)
-      this.setState({loading: false})
+      const addressInpErr = 'Please, check your address. No crowsales for it.'
+      console.error(error, e)
+      this.setState({loading: false, addressInpErr: addressInpErr})
     })
   }
 
@@ -138,14 +140,16 @@ export class Home extends Component {
         </div>
 
         <ModalContainer title={'InputBox for Ethereum address'} description={`Please, make sure, that you have enabled your Metamask plugin. Otherwise, you can write your Ethereum wallet address to get information about your crowsales.`} hideModal={this.hideModalInp} showModal={this.state.showModalInp}>
-          <InputField side='left' type='text'
-            errorMessage={''}
-            valid={''}
-            title={'Address'}
-            onChange={e => this.updateAddress(e)}
-            description={`Your Ethereum wallet address.`}
-          /><br />
-        <Button side='left' text='Continue' onClick={this.onSubmitInp}/>
+          <div className="reserved-tokens-input-container-inner">
+            <InputField side='left' type='text'
+              errorMessage={this.state.addressInpErr}
+              valid={''}
+              title={'Address'}
+              onChange={e => this.updateAddress(e)}
+              description={`Your Ethereum wallet address.`}
+            />
+          </div>
+          <Button containerStyle='button-container' text='Continue' onClick={this.onSubmitInp}/>
         </ModalContainer>
 
         <ModalContainer title={'Crowdsale List'} description={`The list of your updatable crowdsales. Choose crowdsale address, click Continue and you'll be able to update the parameters of crowdsale.`} hideModal={this.hideModal} showModal={this.state.showModal}>
