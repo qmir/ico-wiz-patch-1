@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { inject, observer } from "mobx-react";
 import '../../assets/stylesheets/application.css';
 import {Link} from 'react-router-dom'
 import CrowdsalesList from '../Common/CrowdsalesList'
@@ -7,8 +8,9 @@ import {Button} from '../Common/Button'
 import {loadRegistryAddresses,loadRegistryAddrsWithInfura} from '../../utils/blockchainHelpers'
 import {ModalContainer} from '../Common/ModalContainer'
 import { InputField } from "../Common/InputField";
-import {web3Store} from '../../stores'
 
+@inject("web3Store")
+@observer
 export class Home extends Component {
   constructor(props) {
     super(props)
@@ -20,15 +22,15 @@ export class Home extends Component {
   }
 
   chooseContract = () => {
+    const { web3Store } = this.props
+    const { web3 } = web3Store
     this.setState({loading: true, showModal: false, showModalInp: false});
 
-    if (!window.web3) {
-      const {web3} = web3Store;
+    if (!web3) {
       console.log('No Metamask, only Infura');
       this.setState({loading: false, showModalInp: true})
     } else {
-      if (!window.web3.eth.accounts[0]) {
-        const {web3} = web3Store;
+      if (!web3.eth.accounts[0]) {
         console.log('Metamask exists, but not logged in');
         this.setState({loading: false, showModalInp: true})
       } else {
