@@ -267,7 +267,7 @@ export class Crowdsale extends React.Component {
           <a onClick={this.goToInvestPage} className="button button_fill">Invest</a>
         </div>
         <div className="button-container">
-          <a onClick={this.checkMint()} className="button button_fill">Check mint</a>
+          <a onClick={this.checkMint} className="button button_fill">Check mint</a>
         </div>
         <Loader show={this.state.loading}></Loader>
       </section>
